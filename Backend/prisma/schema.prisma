@@ -12,3 +12,56 @@ datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
 }
+
+model Member {
+  mem_id    Int    @id @default(autoincrement()) // Primary key
+  mem_name  String
+  mem_phone String
+  mem_email String @unique
+  memberships Membership[] // One-to-Many
+  issuances Issuance[]    // One-to-Many
+}
+
+model Membership {
+  membership_id Int     @id @default(autoincrement()) // Primary key
+  member        Member  @relation(fields: [member_id], references: [mem_id])
+  member_id     Int     // Foreign key refering Member.mem_id
+  status        String
+}
+
+model Collection {
+  collection_id   Int    @id @default(autoincrement()) // Primary key
+  collection_name String
+  books           Book[] // One-to-Many
+}
+
+model Category {
+  cat_id       Int    @id @default(autoincrement()) // Primary key
+  cat_name     String
+  sub_cat_name String
+  books        Book[] // One-to-Many
+}
+
+model Book {
+  book_id            Int       @id @default(autoincrement()) // Primary key
+  book_name          String
+  book_cat           Category   @relation(fields: [book_cat_id], references: [cat_id])
+  book_cat_id        Int        // Foreign key refering Category.cat_id
+  book_collection    Collection @relation(fields: [book_collection_id], references: [collection_id])
+  book_collection_id Int        // Foreign key refering Collection.collection_id
+  book_launch_date   DateTime
+  book_publisher     String
+  issuances          Issuance[] // One-to-Many
+}
+
+model Issuance {
+  issuance_id        Int      @id @default(autoincrement()) // Primary key
+  book               Book     @relation(fields: [book_id], references: [book_id])
+  book_id            Int      // Foreign key refering Book.book_id
+  issuance_date      DateTime
+  issuance_member    Member   @relation(fields: [issuance_member_id], references: [mem_id])
+  issuance_member_id Int      // Foreign key refering Member.mem_id
+  issued_by          String
+  target_return_date DateTime
+  issuance_status    String
+}
