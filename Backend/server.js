@@ -3,11 +3,25 @@ const cors = require("cors")
 const dotenv = require("dotenv")
 dotenv.config()
 
+const authenticateAPI = require("./Middleware/authAPIKey")
+
+const bookRoute = require("./Routes/bookRoutes")
+const memberRoute = require("./Routes/memberRoute")
+const issuanceRoute = require("./Routes/issuanceRoute")
+
 const app = express()
 const PORT = process.env.PORT
 
 app.use(cors())
+
+app.use(authenticateAPI)
+
+// app.use(cors())
 app.use(express.json())
+
+app.use("/book", bookRoute)
+app.use("/member", memberRoute)
+app.use("/issuance", issuanceRoute)
 
 app.listen(PORT, () => {
     console.log(`PORT ${PORT} is working fine`)
