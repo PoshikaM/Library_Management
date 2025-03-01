@@ -6,6 +6,12 @@ import Books from './Components/Books'
 import MembersList from './Components/Members'
 import IssuanceList from './Components/Issuance'
 import TaskDetails from './Components/TaskDetails'
+import NeverBorrowedBooks from './Components/NeverBorrowed'
+import OutstandingBooks from './Components/OutstandingBooks'
+import TopBorrowedBooks from './Components/TopBorrowedBooks'
+import BooksManagement from './Components/BooksManagement'
+import MembersManagement from './Components/MembersManagement'
+import IssuanceManagement from './Components/IssuanceManagement'
 
 function App() {
   const [count, setCount] = useState(0)
@@ -18,6 +24,12 @@ function App() {
         <Route path='/member' element={<MembersList/>}></Route>
         <Route path='/issuance' element={<IssuanceList/>}></Route>
         <Route path='/taskDetails' element={<TaskDetails/>}></Route>
+        <Route path='/never-borrowed-books' element={<NeverBorrowedBooks/>}></Route>
+        <Route path='/outstanding-books' element={<OutstandingBooks/>}></Route>
+        <Route path='/top-borrowed-books' element={<TopBorrowedBooks/>}></Route>
+        <Route path='/manageBooks' element={<BooksManagement/>}></Route>
+        <Route path='/manageMembers' element={<MembersManagement/>}></Route>
+        <Route path='manageIssuance' element={<IssuanceManagement/>}></Route>
       </Routes>
     </>
   )

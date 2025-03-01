@@ -6,5 +6,6 @@ router.post("/", issuanceController.createIssuance);
 router.get("/", issuanceController.getIssuance);
 router.get("/:id", issuanceController.getIssuanceById);
 router.put("/:id", issuanceController.updateIssuance);
+router.delete("/:id", issuanceController.deleteIssuance);
 
-module.exports = router
+module.exports = router;

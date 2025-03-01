@@ -87,4 +87,24 @@ const updateBook = async (req, res) => {
     }
 }
 
-module.exports = { createBook, getAllBooks, getBookById, updateBook }
+// Delete book (DELETE)
+const deleteBook = async (req, res) => {
+    try {
+        const { id } = req.params;
+
+        const book = await prisma.book.findUnique({ where: { book_id: Number(id) } });
+
+        if (!book) {
+            return res.status(404).json({ error: "Book not found" });
+        }
+
+        await prisma.book.delete({ where: { book_id: Number(id) } });
+
+        return res.status(200).json({ message: "Book deleted successfully" });
+    } catch (error) {
+        console.error("Error deleting book:", error);
+        return res.status(500).json({ error: "Internal Server Error" });
+    }
+};
+
+module.exports = { createBook, getAllBooks, getBookById, updateBook, deleteBook }

@@ -91,4 +91,28 @@ const updateIssuance = async (req, res) => {
     }
 }
 
-module.exports = { createIssuance, getIssuance, getIssuanceById, updateIssuance }
+// Delete issuance (DELETE)
+const deleteIssuance = async (req, res) => {
+    try {
+        const { id } = req.params;
+
+        const existingIssuance = await prisma.issuance.findUnique({
+            where: { issuance_id: Number(id) }
+        });
+
+        if (!existingIssuance) {
+            return res.status(404).json({ error: 'Issuance not found' });
+        }
+
+        await prisma.issuance.delete({
+            where: { issuance_id: Number(id) }
+        });
+
+        res.status(200).json({ message: "Issuance deleted successfully" });
+    } catch (error) {
+        console.log("Error deleting issuance: ", error);
+        res.status(500).json({ error: 'Failed to delete issuance' });
+    }
+};
+
+module.exports = { createIssuance, getIssuance, getIssuanceById, updateIssuance, deleteIssuance }

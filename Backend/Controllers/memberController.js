@@ -79,4 +79,21 @@ const updateMember = async (req, res) => {
     }
 }
 
-module.exports = { createMember, getAllMembers, getMemberById, updateMember }
+// Delete member (DELETE)
+const deleteMember = async (req, res) => {
+    try {
+        const { id } = req.params;
+
+        const deletedMember = await prisma.member.delete({
+            where: { mem_id: Number(id) },
+        });
+
+        res.status(200).json({ message: "Member deleted successfully!", member: deletedMember });
+    } catch (error) {
+        console.error("Error deleting member:", error);
+        return res.status(500).json({ error: "Internal Server Error" });
+    }
+};
+
+
+module.exports = { createMember, getAllMembers, getMemberById, updateMember, deleteMember }
